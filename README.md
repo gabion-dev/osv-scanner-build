@@ -67,8 +67,10 @@ alike:
 3. `build.sh` builds the four binaries without cgo on one Linux machine and
    checks that each names the pinned Go and the tag's commit, and that the
    Linux ones are static;
-4. upstream's tests run on the same source as upstream's CI runs them —
-   acceptance tests on, recorded HTTP answers — on Ubuntu 24.04 and macOS 15;
+4. `test.sh` runs upstream's tests on the same source as upstream's CI runs
+   them — acceptance tests on, recorded HTTP answers — on Ubuntu 24.04 and
+   macOS 15, skipping by name two that compare a live scan of the AlmaLinux 9
+   test image with a snapshot of the tag's day (the script says why);
 5. `launch-check.sh` starts every binary on a machine of its own system and
    architecture: it must report the tag's version and find a known
    vulnerability in an offline scan of a CycloneDX bill of materials against

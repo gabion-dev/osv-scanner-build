@@ -169,7 +169,7 @@ jobs:
 
   # Upstream's tests as upstream's CI runs them — acceptance tests on, HTTP
   # answers replayed from the recorded cassettes — on the prepared source
-  # and the pinned Go.
+  # and the pinned Go (build/test.sh: what it skips and why).
   test:
     needs: [build, test-images]
     strategy:
@@ -215,11 +215,7 @@ jobs:
           path: source/cmd/osv-scanner/scan/image/testdata/
 
       - name: Upstream's tests
-        working-directory: source
-        env:
-          CI: "true"
-          TEST_ACCEPTANCE: "true"
-        run: go test ./...
+        run: bash build/test.sh source
 
   # Every binary is started on a machine of its own architecture. The Linux
   # binaries are static; they run on the runner and inside clean containers
@@ -357,7 +353,7 @@ jobs:
             echo
             echo "\`go.mod\` and \`go.sum\` are the module files every binary was built from: the tag's source with these two files is the source of this release."
             echo
-            echo "Before this release was published, govulncheck found no called vulnerable function for linux or darwin, upstream's tests passed with acceptance tests on Ubuntu 24.04 and macOS 15, and every binary reported its version and found a known vulnerability in an offline scan of a CycloneDX bill of materials: Linux x64 and ARM64 on the runner and in clean Ubuntu 22.04, Debian 13, Fedora and Alpine containers, macOS 15 and 26 on Apple Silicon and Intel."
+            echo "Before this release was published, govulncheck found no called vulnerable function for linux or darwin, upstream's tests passed with acceptance tests on Ubuntu 24.04 and macOS 15 (two that compare a live scan of the AlmaLinux 9 test image with a snapshot of the tag's day skipped by name, as \`build/test.sh\` explains), and every binary reported its version and found a known vulnerability in an offline scan of a CycloneDX bill of materials: Linux x64 and ARM64 on the runner and in clean Ubuntu 22.04, Debian 13, Fedora and Alpine containers, macOS 15 and 26 on Apple Silicon and Intel."
             echo
             echo "## Platforms"
             echo "- \`osv-scanner_linux_amd64\` — Linux x64 (static)"

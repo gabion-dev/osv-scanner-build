@@ -1,5 +1,0 @@
-# .gitignore
-# What the scripts in build/ leave when run from the root of the repository.
-/source/
-/dist/
-/reports/
